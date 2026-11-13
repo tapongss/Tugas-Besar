@@ -16,6 +16,8 @@ class RoomTest extends TestCase
 
     private User $operator;
 
+    private User $admin;
+
     private Building $building;
 
     private Facility $projector;
@@ -27,6 +29,7 @@ class RoomTest extends TestCase
         parent::setUp();
 
         $this->operator = User::factory()->create();
+        $this->admin = User::factory()->admin()->create();
         $this->building = Building::factory()->create();
         $this->projector = Facility::factory()->create(['name' => 'Proyektor Uji']);
         $this->computer = Facility::factory()->create(['name' => 'PC Uji']);
@@ -133,11 +136,22 @@ class RoomTest extends TestCase
         $room = Room::factory()->create(['building_id' => $this->building->id]);
         DefenseSession::factory()->create(['room_id' => $room->id]);
 
-        $this->actingAs($this->operator)
+        $this->actingAs($this->admin)
             ->from(route('rooms.show', $room))
             ->delete(route('rooms.destroy', $room))
             ->assertRedirect(route('rooms.show', $room))
             ->assertSessionHas('error');
+
+        $this->assertDatabaseHas('rooms', ['id' => $room->id]);
+    }
+
+    public function test_operator_cannot_delete_room(): void
+    {
+        $room = Room::factory()->create(['building_id' => $this->building->id]);
+
+        $this->actingAs($this->operator)
+            ->delete(route('rooms.destroy', $room))
+            ->assertForbidden();
 
         $this->assertDatabaseHas('rooms', ['id' => $room->id]);
     }

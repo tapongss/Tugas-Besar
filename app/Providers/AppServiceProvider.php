@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setLocale('id');
 
         Gate::define('manage-module', fn (User $user) => $user->isManager());
+        Gate::define('delete-module', fn (User $user) => $user->is_active && $user->isAdmin());
         Gate::define('admin', fn (User $user) => $user->isAdmin());
     }
 }

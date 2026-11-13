@@ -14,11 +14,14 @@ class BuildingTest extends TestCase
 
     private User $operator;
 
+    private User $admin;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->operator = User::factory()->create();
+        $this->admin = User::factory()->admin()->create();
     }
 
     public function test_building_index_and_detail_can_be_rendered(): void
@@ -98,7 +101,7 @@ class BuildingTest extends TestCase
         $building = Building::factory()->create();
         Room::factory()->create(['building_id' => $building->id]);
 
-        $this->actingAs($this->operator)
+        $this->actingAs($this->admin)
             ->from(route('buildings.show', $building))
             ->delete(route('buildings.destroy', $building))
             ->assertRedirect(route('buildings.show', $building))
@@ -107,11 +110,22 @@ class BuildingTest extends TestCase
         $this->assertDatabaseHas('buildings', ['id' => $building->id]);
     }
 
-    public function test_empty_building_can_be_deleted(): void
+    public function test_operator_cannot_delete_building(): void
     {
         $building = Building::factory()->create();
 
         $this->actingAs($this->operator)
+            ->delete(route('buildings.destroy', $building))
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('buildings', ['id' => $building->id]);
+    }
+
+    public function test_empty_building_can_be_deleted(): void
+    {
+        $building = Building::factory()->create();
+
+        $this->actingAs($this->admin)
             ->delete(route('buildings.destroy', $building))
             ->assertRedirect(route('buildings.index'));
 

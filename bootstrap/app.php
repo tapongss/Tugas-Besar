@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AuthenticateApiToken;
+use App\Http\Middleware\EnsureApiCanDelete;
 use App\Http\Middleware\EnsureApiCanManage;
 use App\Http\Middleware\ForceJsonResponse;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'api.token' => AuthenticateApiToken::class,
             'api.can-manage' => EnsureApiCanManage::class,
+            'api.can-delete' => EnsureApiCanDelete::class,
             'api.json' => ForceJsonResponse::class,
         ]);
     })

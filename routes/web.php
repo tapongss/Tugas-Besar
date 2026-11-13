@@ -26,22 +26,26 @@ Route::middleware('auth')->group(function () {
     Route::resource('gedung', BuildingController::class)
         ->parameters(['gedung' => 'building'])
         ->names('buildings')
-        ->middlewareFor(['create', 'store', 'edit', 'update', 'destroy'], 'can:manage-module');
+        ->middlewareFor(['create', 'store', 'edit', 'update'], 'can:manage-module')
+        ->middlewareFor(['destroy'], 'can:delete-module');
 
     Route::resource('ruang', RoomController::class)
         ->parameters(['ruang' => 'room'])
         ->names('rooms')
-        ->middlewareFor(['create', 'store', 'edit', 'update', 'destroy'], 'can:manage-module');
+        ->middlewareFor(['create', 'store', 'edit', 'update'], 'can:manage-module')
+        ->middlewareFor(['destroy'], 'can:delete-module');
 
     Route::resource('fasilitas', FacilityController::class)
         ->parameters(['fasilitas' => 'facility'])
         ->names('facilities')
-        ->middlewareFor(['create', 'store', 'edit', 'update', 'destroy'], 'can:manage-module');
+        ->middlewareFor(['create', 'store', 'edit', 'update'], 'can:manage-module')
+        ->middlewareFor(['destroy'], 'can:delete-module');
 
     Route::resource('jadwal', ScheduleController::class)
         ->parameters(['jadwal' => 'schedule'])
         ->names('schedules')
-        ->middlewareFor(['create', 'store', 'edit', 'update', 'destroy'], 'can:manage-module');
+        ->middlewareFor(['create', 'store', 'edit', 'update'], 'can:manage-module')
+        ->middlewareFor(['destroy'], 'can:delete-module');
 
     Route::patch('jadwal/{schedule}/status', [ScheduleController::class, 'updateStatus'])
         ->middleware('can:manage-module')

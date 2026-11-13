@@ -235,7 +235,7 @@
                     </div>
                 </div>
 
-                @can('manage-module')
+                @can('delete-module')
                     @if ($facility->rooms_count === 0)
                         <div class="card border border-rose-100 p-5">
                             <h2 class="text-sm font-semibold text-slate-900">Hapus fasilitas</h2>

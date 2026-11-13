@@ -113,7 +113,7 @@ JSON;
                 </span>
                 <div>
                     <p class="text-xs font-semibold text-slate-800">Tulis dengan Bearer token</p>
-                    <p class="mt-0.5 text-[11px] leading-relaxed text-slate-500">POST, PUT, dan DELETE memerlukan token akun admin atau operator yang aktif.</p>
+                    <p class="mt-0.5 text-[11px] leading-relaxed text-slate-500">POST dan PUT memerlukan token akun admin atau operator yang aktif. DELETE hanya boleh memakai token admin.</p>
                 </div>
             </div>
             <div class="card flex items-start gap-3 p-4">
@@ -251,7 +251,7 @@ JSON;
                             ['200', 'Permintaan berhasil', 'emerald'],
                             ['201', 'Resource berhasil dibuat', 'emerald'],
                             ['401', 'Token tidak ada atau tidak valid', 'amber'],
-                            ['403', 'Akun tidak memiliki izin tulis', 'amber'],
+                            ['403', 'Akun tidak memiliki izin untuk aksi ini', 'amber'],
                             ['404', 'Resource tidak ditemukan', 'rose'],
                             ['422', 'Validasi data gagal', 'rose'],
                         ] as [$code, $description, $tone])

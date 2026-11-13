@@ -99,7 +99,7 @@ Route::resource('fasilitas', FacilityController::class)
 | Update (simpan) | PUT/PATCH | `/fasilitas/{id}` | `update` | `facilities.update` |
 | Delete | DELETE | `/fasilitas/{id}` | `destroy` | `facilities.destroy` |
 
-“Route untuk create, store, edit, update, dan destroy juga dilindungi middleware `can:manage-module`, jadi hanya admin dan operator yang boleh mengubah data. Viewer hanya bisa membaca.”
+“Route untuk create, store, edit, dan update dilindungi middleware `can:manage-module`, jadi hanya admin dan operator yang boleh menambah serta mengubah data. Khusus route destroy dilindungi `can:delete-module`, sehingga hanya admin yang boleh menghapus. Viewer hanya bisa membaca.”
 
 ### 2B. Controller
 
@@ -224,7 +224,7 @@ Route::resource('fasilitas', FacilityController::class)
 
 *(Buka phpMyAdmin, tunjukkan baris FS-LSR masih ada dan jumlah 12)*
 
-“Terakhir adalah **Delete**. Sebelum menghapus, saya tunjukkan lagi kondisi database: baris `FS-LSR` masih ada dan jumlahnya **12**.”
+“Terakhir adalah **Delete**. Sebelum menghapus, saya tunjukkan lagi kondisi database: baris `FS-LSR` masih ada dan jumlahnya **12**. Perlu dicatat, hak hapus hanya dimiliki admin; akun operator hanya bisa melihat, menambah, dan mengubah data.”
 
 *(Kembali ke aplikasi → klik ikon Hapus pada baris FS-LSR)*
 

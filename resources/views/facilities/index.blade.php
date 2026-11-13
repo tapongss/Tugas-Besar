@@ -148,13 +148,15 @@
                                                     <x-icon name="pencil" class="h-4 w-4" />
                                                 </a>
                                                 @if ($facility->rooms_count === 0)
-                                                    <form method="POST" action="{{ route('facilities.destroy', $facility) }}" data-confirm="Fasilitas {{ $facility->name }} akan dihapus permanen." data-confirm-title="Hapus fasilitas?">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn-icon text-slate-400 hover:bg-rose-50 hover:text-rose-600" title="Hapus fasilitas">
-                                                            <x-icon name="trash" class="h-4 w-4" />
-                                                        </button>
-                                                    </form>
+                                                    @can('delete-module')
+                                                        <form method="POST" action="{{ route('facilities.destroy', $facility) }}" data-confirm="Fasilitas {{ $facility->name }} akan dihapus permanen." data-confirm-title="Hapus fasilitas?">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn-icon text-slate-400 hover:bg-rose-50 hover:text-rose-600" title="Hapus fasilitas">
+                                                                <x-icon name="trash" class="h-4 w-4" />
+                                                            </button>
+                                                        </form>
+                                                    @endcan
                                                 @endif
                                             @endcan
                                         </div>

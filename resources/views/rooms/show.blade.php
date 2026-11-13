@@ -339,7 +339,7 @@
                     </div>
                 </div>
 
-                @can('manage-module')
+                @can('delete-module')
                     @if (! $hasSessions)
                         <div class="card border border-rose-100 p-5">
                             <h2 class="text-sm font-semibold text-slate-900">Hapus ruang</h2>

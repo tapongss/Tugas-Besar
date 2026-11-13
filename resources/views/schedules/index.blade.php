@@ -270,13 +270,15 @@
                                                     <a href="{{ route('schedules.edit', $session) }}" class="btn-icon text-slate-400 hover:bg-slate-100 hover:text-slate-700" title="Edit jadwal">
                                                         <x-icon name="pencil" class="h-4 w-4" />
                                                     </a>
-                                                    <form method="POST" action="{{ route('schedules.destroy', $session) }}" data-confirm="Jadwal {{ $session->title }} akan dihapus permanen." data-confirm-title="Hapus jadwal?">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn-icon text-slate-400 hover:bg-rose-50 hover:text-rose-600" title="Hapus jadwal">
-                                                            <x-icon name="trash" class="h-4 w-4" />
-                                                        </button>
-                                                    </form>
+                                                    @can('delete-module')
+                                                        <form method="POST" action="{{ route('schedules.destroy', $session) }}" data-confirm="Jadwal {{ $session->title }} akan dihapus permanen." data-confirm-title="Hapus jadwal?">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn-icon text-slate-400 hover:bg-rose-50 hover:text-rose-600" title="Hapus jadwal">
+                                                                <x-icon name="trash" class="h-4 w-4" />
+                                                            </button>
+                                                        </form>
+                                                    @endcan
                                                 @endcan
                                             </div>
                                         </td>

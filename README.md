@@ -14,7 +14,7 @@ database **MySQL** (XAMPP) sehingga data dapat dipantau melalui **phpMyAdmin**.
 | Area | Cakupan |
 | --- | --- |
 | Autentikasi | Login/register, logout, profil, ganti password, token API pribadi |
-| Hak akses | `admin`, `operator`, `viewer` dengan pembatasan tulis melalui Gate `manage-module` |
+| Hak akses | `admin`, `operator`, `viewer`; tambah/ubah lewat Gate `manage-module`, hapus lewat Gate `delete-module` (khusus admin) |
 | Master gedung | CRUD gedung, kode unik, jumlah lantai, alamat, status aktif |
 | Master ruang | CRUD ruang ujian/sidang, gedung, lantai, kapasitas, jenis ruang, status |
 | Master fasilitas | CRUD fasilitas, kategori, satuan, status aktif |
@@ -38,11 +38,11 @@ database **MySQL** (XAMPP) sehingga data dapat dipantau melalui **phpMyAdmin**.
 
 Jalankan seeder, lalu masuk melalui `/login`.
 
-| Peran | Email | Password | Token API |
-| --- | --- | --- | --- |
-| Admin | `admin@ta.test` | `password` | `ta-admin-demo-token` |
-| Operator | `operator@ta.test` | `password` | `ta-operator-demo-token` |
-| Viewer (hanya baca) | `viewer@ta.test` | `password` | `ta-viewer-demo-token` |
+| Peran | Email | Password | Token API | Hak akses |
+| --- | --- | --- | --- | --- |
+| Admin | `admin@ta.test` | `password` | `ta-admin-demo-token` | Lihat, tambah, ubah, hapus |
+| Operator | `operator@ta.test` | `password` | `ta-operator-demo-token` | Lihat, tambah, ubah (tanpa hapus) |
+| Viewer | `viewer@ta.test` | `password` | `ta-viewer-demo-token` | Lihat saja |
 
 > Token hanya ditampilkan sekali pada halaman profil setelah dibuat ulang.
 > Nilai token di atas adalah token demo dari seeder; di database disimpan sebagai hash SHA-256.
@@ -175,7 +175,7 @@ curl -X POST http://127.0.0.1:8000/api/v1/buildings \
   -d "{\"code\":\"GD-04\",\"name\":\"Gedung D\",\"floors\":3,\"is_active\":true}"
 ```
 
-Token `viewer` hanya dapat membaca; endpoint tulis akan mengembalikan `403`.
+Token `viewer` hanya dapat membaca. Token `operator` dapat menambah dan mengubah, tetapi endpoint `DELETE` hanya boleh memakai token `admin`; selain itu akan mengembalikan `403`.
 
 ---
 

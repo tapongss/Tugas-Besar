@@ -138,6 +138,41 @@ class ApiTest extends TestCase
         ]);
     }
 
+    public function test_operator_token_can_create_but_cannot_delete(): void
+    {
+        $operator = User::factory()->create();
+        $token = $this->tokenFor($operator);
+
+        $response = $this->withToken($token)
+            ->postJson('/api/v1/buildings', [
+                'code' => 'API-OP',
+                'name' => 'Gedung Operator',
+                'floors' => 2,
+            ])
+            ->assertCreated();
+
+        $buildingId = $response->json('data.id');
+
+        $this->withToken($token)
+            ->deleteJson("/api/v1/buildings/{$buildingId}")
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('buildings', ['id' => $buildingId]);
+    }
+
+    public function test_admin_token_can_delete_building(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $token = $this->tokenFor($admin);
+        $building = Building::factory()->create();
+
+        $this->withToken($token)
+            ->deleteJson("/api/v1/buildings/{$building->id}")
+            ->assertOk();
+
+        $this->assertDatabaseMissing('buildings', ['id' => $building->id]);
+    }
+
     public function test_inactive_user_token_is_rejected(): void
     {
         $user = User::factory()->inactive()->create();

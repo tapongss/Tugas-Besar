@@ -45,7 +45,7 @@
                     </dl>
                 </div>
 
-                @can('manage-module')
+                @can('delete-module')
                     @if ($building->rooms()->doesntExist())
                         <div class="card border border-rose-100 p-5">
                             <div class="flex items-start gap-2.5">

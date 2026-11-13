@@ -216,8 +216,10 @@
                             Token hanya ditampilkan satu kali saat dibuat. Membuat token baru akan langsung membatalkan token lama yang sedang digunakan.
                         </p>
 
-                        @if ($user->can('manage-module'))
-                            <p class="mt-2 text-[11px] leading-relaxed text-slate-400">Akun {{ $user->role_label }} dapat menggunakan token untuk operasi baca dan tulis.</p>
+                        @if ($user->can('delete-module'))
+                            <p class="mt-2 text-[11px] leading-relaxed text-slate-400">Akun {{ $user->role_label }} dapat menggunakan token untuk operasi baca, tambah, ubah, dan hapus.</p>
+                        @elseif ($user->can('manage-module'))
+                            <p class="mt-2 text-[11px] leading-relaxed text-slate-400">Akun {{ $user->role_label }} dapat menggunakan token untuk operasi baca, tambah, dan ubah. Endpoint hapus (DELETE) hanya untuk akun admin.</p>
                         @else
                             <p class="mt-2 text-[11px] leading-relaxed text-amber-600">Akun {{ $user->role_label }} hanya dapat mengakses endpoint baca (GET).</p>
                         @endif

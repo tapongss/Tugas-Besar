@@ -253,7 +253,7 @@
                     </div>
                 </div>
 
-                @can('manage-module')
+                @can('delete-module')
                     <div class="card border border-rose-100 p-5">
                         <h2 class="text-sm font-semibold text-slate-900">Hapus jadwal</h2>
                         <p class="mt-1 text-xs leading-relaxed text-slate-500">Jadwal yang dihapus tidak dapat dikembalikan. Pertimbangkan mengubah status menjadi batal.</p>

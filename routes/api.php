@@ -36,18 +36,21 @@ Route::middleware('api.json')->prefix('v1')->group(function () {
     Route::middleware(['api.token', 'api.can-manage'])->group(function () {
         Route::post('buildings', [BuildingController::class, 'store'])->name('api.buildings.store');
         Route::put('buildings/{building}', [BuildingController::class, 'update'])->name('api.buildings.update');
-        Route::delete('buildings/{building}', [BuildingController::class, 'destroy'])->name('api.buildings.destroy');
 
         Route::post('rooms', [RoomController::class, 'store'])->name('api.rooms.store');
         Route::put('rooms/{room}', [RoomController::class, 'update'])->name('api.rooms.update');
-        Route::delete('rooms/{room}', [RoomController::class, 'destroy'])->name('api.rooms.destroy');
 
         Route::post('facilities', [FacilityController::class, 'store'])->name('api.facilities.store');
         Route::put('facilities/{facility}', [FacilityController::class, 'update'])->name('api.facilities.update');
-        Route::delete('facilities/{facility}', [FacilityController::class, 'destroy'])->name('api.facilities.destroy');
 
         Route::post('schedules', [ScheduleController::class, 'store'])->name('api.schedules.store');
         Route::put('schedules/{schedule}', [ScheduleController::class, 'update'])->name('api.schedules.update');
+    });
+
+    Route::middleware(['api.token', 'api.can-delete'])->group(function () {
+        Route::delete('buildings/{building}', [BuildingController::class, 'destroy'])->name('api.buildings.destroy');
+        Route::delete('rooms/{room}', [RoomController::class, 'destroy'])->name('api.rooms.destroy');
+        Route::delete('facilities/{facility}', [FacilityController::class, 'destroy'])->name('api.facilities.destroy');
         Route::delete('schedules/{schedule}', [ScheduleController::class, 'destroy'])->name('api.schedules.destroy');
     });
 });
